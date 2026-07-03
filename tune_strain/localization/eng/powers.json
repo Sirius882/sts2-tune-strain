@@ -1,0 +1,11 @@
+{
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.title": "Tune Strain · Bias",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.description": "Cleared and converted into an equal amount of [gold]Tune Strain · Interference[/gold] when Resonance Break resolves.",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.smartDescription": "Cleared and converted into an equal amount of Tune Strain · Interference when Resonance Break resolves.",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.title": "Tune Strain · Interference",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.description": "Direct attack damage taken is amplified by the Tune Strain vulnerability ratio.",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.smartDescription": "Direct attack damage taken is amplified by the Tune Strain vulnerability ratio.",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.title": "Tune Strain Response",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.description": "When a Tune Strain rupture resolves, the count of [gold]Tune Strain Response[/gold] cards in your draw pile, hand, and discard pile overwrites this power's stacks; while active, you deal extra damage to enemies with [gold]Tune Strain · Interference[/gold].",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.smartDescription": "When a Tune Strain rupture resolves, response card count overwrites stacks; while active, you deal extra damage to enemies with Tune Strain · Interference."
+}

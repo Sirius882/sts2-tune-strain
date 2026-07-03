@@ -1,0 +1,4 @@
+{
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE.description": "标记牌。打出带有[gold]集谐响应[/gold]的牌本身无效果。集谐处决结算时，统计抽牌堆、手牌、弃牌堆中的[gold]集谐响应[/gold]牌总数并覆盖到集谐响应 power 的层数。",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE.title": "集谐响应"
+}

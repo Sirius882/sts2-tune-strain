@@ -1,0 +1,11 @@
+{
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.title": "集谐·偏移",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.description": "谐度破坏时清空并转化为等量的[gold]集谐·干涉[/gold]。",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.smartDescription": "谐度破坏时清空并转化为等量的集谐·干涉。",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.title": "集谐·干涉",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.description": "受到的直接攻击伤害按集谐易伤放大。",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.smartDescription": "受到的直接攻击伤害按集谐易伤放大。",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.title": "集谐响应",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.description": "集谐处决结算时按抽牌堆/手牌/弃牌堆的[gold]集谐响应[/gold]牌总数覆盖层数；存续期间使你对带[gold]集谐·干涉[/gold]的怪物造成额外伤害。",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.smartDescription": "集谐处决结算时按响应牌总数覆盖层数；存续期间你对带集谐·干涉的怪物造成额外伤害。"
+}

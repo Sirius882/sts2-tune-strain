@@ -1,0 +1,29 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1">
+  <PropertyGroup>
+    <AssemblyName>tune_strain</AssemblyName>
+    <EnableDynamicLoading>True</EnableDynamicLoading>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net90</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoWarn>STS001;STS002</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.0" />
+    <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.1.9" />
+    <PackageReference Include="SmartFormat" Version="3.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>..\..\threeDLLs\sts2.dll</HintPath>
+    </Reference>
+    <Reference Include="aemeath-ww">
+      <HintPath>E:\SteamLibrary\steamapps\workshop\content\2868840\3747597254\aemeath-ww.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\threeDLLs\0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
