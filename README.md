@@ -57,3 +57,158 @@
         if tune_strain_mode:
             dmgAdvRatio = tsDmgAdvRatio(怪物1的tsBias,tsResponse(2*达妮娅的集谐响应power层数))
     注意达妮娅共鸣模态·集谐的实现不能直接写死，而是在集谐系统中留出API，达妮娅的共鸣模态·集谐使用该API，以实现达妮娅与集谐系统的解耦
+
+# 开发者 API
+
+本节面向其他角色 Mod 或机制 Mod 的开发者。`tune_strain` 是一个机制库 Mod，提供集谐·偏移、集谐·干涉、集谐响应关键词与集谐处决后的统一结算。
+
+## 依赖配置
+
+在你的 Mod 描述文件中声明依赖：
+
+```json
+{
+    "dependencies": [
+        { "id": "BaseLib" },
+        { "id": "aemeath-ww" },
+        { "id": "tune_strain" }
+    ]
+}
+```
+
+在 `.csproj` 中引用 `tune_strain.dll`。路径按你的项目结构调整：
+
+```xml
+<Reference Include="tune_strain">
+    <HintPath>..\tune_strain\.godot\mono\temp\bin\Debug\tune_strain.dll</HintPath>
+</Reference>
+```
+
+使用命名空间：
+
+```csharp
+using TuneStrain;
+```
+
+## 卡牌自带集谐响应
+
+如果一张牌天生带有集谐响应，把 `TuneStrainKeywords.TuneStrainResponse` 放进该牌的 `CanonicalKeywords`。这是长期关键词，不会在集谐处决或战斗结束时被清掉。
+
+```csharp
+public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { TuneStrainKeywords.TuneStrainResponse };
+```
+
+不要用 `TuneStrainState.AddTemporaryResponse` 实现卡牌自带响应。那个 API 只用于战斗中临时给牌贴响应。
+
+## 附加集谐·偏移
+
+使用 `TryAddBias` 给敌人附加集谐·偏移。调用方必须 `await`。
+
+```csharp
+await TuneStrainState.TryAddBias(target, 1, Owner.Creature, this);
+```
+
+返回值表示是否成功附加。以下情况会返回 `false`：层数不大于 0、目标已死亡、目标已有集谐·干涉。
+
+读取当前偏移层数：
+
+```csharp
+int bias = TuneStrainState.GetBias(target);
+```
+
+判断目标是否处于集谐·干涉：
+
+```csharp
+bool hasInterference = TuneStrainState.HasInterference(target);
+```
+
+## 临时集谐响应
+
+有些卡牌会在本场战斗中临时给牌附加集谐响应。使用 `AddTemporaryResponse`，传入玩家和牌组中的永久牌。
+
+```csharp
+TuneStrainState.AddTemporaryResponse(Owner, deckCard);
+```
+
+该 API 会给这张永久牌以及本场战斗中对应的所有副本贴上 `TuneStrainResponse` 关键词。临时响应会在集谐处决触发时或战斗结束时自动清理。
+
+判断一张牌是否已被临时响应机制标记：
+
+```csharp
+bool alreadyTemporary = TuneStrainState.HasTemporaryResponse(card);
+```
+
+常见用法是在选牌时排除已经有响应的牌：
+
+```csharp
+card => !card.Keywords.Contains(TuneStrainKeywords.TuneStrainResponse)
+        && !TuneStrainState.HasTemporaryResponse(card)
+```
+
+## 响应 power 与响应度
+
+读取玩家当前集谐响应 power 的原始层数：
+
+```csharp
+int layers = TuneStrainState.GetResponsePowerAmount(player.Creature);
+```
+
+读取已经过超额累进折算、并应用角色倍率后的集谐响应度：
+
+```csharp
+double responseDegree = TuneStrainState.GetResponseDegree(player.Creature);
+```
+
+通常角色 Mod 不需要自己计算伤害倍率；集谐·干涉的伤害修正由 `tune_strain` 的 power 和补丁统一处理。
+
+## 注册响应度倍率
+
+角色 Mod 如果有自己的“共鸣模态·集谐”或类似状态，可以注册响应 power 层数倍率。倍率会先作用于原始响应 power 层数，再进入超额累进折算。
+
+```csharp
+private IDisposable? _tuneStrainMultiplier;
+
+_tuneStrainMultiplier = TuneStrainState.RegisterResponseDegreeMultiplier(creature =>
+{
+        return IsMyTuneStrainModeActive(creature) ? 2.0 : 1.0;
+});
+```
+
+状态结束或 Mod 卸载时释放句柄：
+
+```csharp
+_tuneStrainMultiplier?.Dispose();
+_tuneStrainMultiplier = null;
+```
+
+每个回调都应该只返回倍率，不要在回调里修改游戏状态。单个倍率回调抛异常时会被忽略，但仍建议保持实现简单稳定。
+
+## 集谐处决结算
+
+`tune_strain` 已经补丁接入 Aemeath 的谐度破坏和无条件谐度破坏：当 Aemeath 的谐度破坏成功结算后，会自动调用集谐处决逻辑。
+
+一般情况下，其他 Mod 不需要手动调用 `ResolveRupture`。如果你实现了自己的“处决”入口，并希望它也触发集谐处决，可以调用：
+
+```csharp
+await TuneStrainState.ResolveRupture(target, applier, sourceCard);
+```
+
+注意：`ResolveRupture` 不检查 Aemeath 偏谐是否已满，也不检查是否满足谐度破坏条件。调用方必须自己保证触发时机正确。该方法会：
+
+- 清空目标的集谐·偏移。
+- 附加等量集谐·干涉和 3 回合持续计时。
+- 给触发者力量奖励，每次最多 2 点，每场战斗最多 4 点。
+- 统计触发者抽牌堆、手牌、弃牌堆中的集谐响应牌，更新集谐响应 power 和持续计时。
+- 清除所有临时集谐响应标记。
+
+## 伤害修正边界
+
+集谐·干涉期间的增伤只作用于直接伤害。聚爆引爆、熔解、谐度破坏本身的伤害不会受到集谐易伤影响。
+
+## 稳定性约定
+
+- 公开入口集中在 `TuneStrainState` 与 `TuneStrainKeywords`。
+- 写入型 API 只要返回 `Task`，调用方都应 `await`。
+- 永久响应用 `CanonicalKeywords`，临时响应用 `AddTemporaryResponse`。
+- 不要直接修改 `TuneStrainBiasPower`、`TuneStrainInterferencePower` 或 `TuneStrainResponsePower` 的层数；优先使用 API。
