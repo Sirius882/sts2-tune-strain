@@ -47,7 +47,7 @@ public static class TuneStrainMath
     }
 
     /// <summary>
-    /// 集谐易伤增伤比例 tsDmgAdvRatio = tsBias2Base(tsBias)^tsRes / 100。
+    /// 集谐易伤增伤比例 tsDmgAdvRatio = 2 * tsBias2Base(tsBias)^tsRes / 100。
     /// 最终伤害 = 原伤害 × (1 + ratio)。
     /// 调用方负责保证 tsRes 已经过 tsResponse 折算（含共鸣模态的 2 倍放大）。
     /// </summary>
@@ -57,6 +57,6 @@ public static class TuneStrainMath
             return 0.0;
         double b = BiasToBase(tsBias);
         double a = System.Math.Pow(b, tsRes);
-        return a / 100.0;
+        return 2.0 * a / 100.0;
     }
 }

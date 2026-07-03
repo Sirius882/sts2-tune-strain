@@ -43,7 +43,7 @@
         
         def tsDmgAdvRatio(tsBias,tsRes)
             a = tsBias2Base(tsBias)**tsRes
-            return a/100
+            return 2*a/100
         最终得到：
         dmgAdvRatio = tsDmgAdvRatio(怪物1的tsBias,tsResponse(玩家1的集谐响应power层数))
         finalDmg = originalDmg*(1+dmgAdvRatio)
