@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using TuneStrain.Patches;
 
 namespace TuneStrain.Powers;
 
@@ -20,8 +21,7 @@ namespace TuneStrain.Powers;
 /// 持续回合数由隐藏的 <see cref="TuneStrainInterferenceDurationPower"/> 单独计量，
 /// 干涉本身不随回合衰减（层数恒定，便于 tsBias 稳定参与倍率计算）。
 /// 集谐易伤在力量/虚弱/易伤等原版效果结算完成后最后结算（与原版易伤在同一 Multiplicative 链中相乘）。
-/// 集谐易伤只作用于直接伤害（IsPoweredAttack）；聚爆引爆、熔解、谐度破坏本身的伤害都不受影响
-/// （这些伤害来源不会带 ValueProp.Move 或 dealer 不是集谐响应持有者）。
+/// 集谐易伤只作用于直接伤害；聚爆引爆、熔解、谐度破坏、中毒和失去生命值都不受影响。
 /// </summary>
 public sealed class TuneStrainInterferencePower : CustomPowerModel
 {
@@ -51,7 +51,10 @@ public sealed class TuneStrainInterferencePower : CustomPowerModel
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || !props.IsPoweredAttack() || dealer == null)
+        if (target != Owner || dealer == null || TuneStrainRuptureDamageScope.IsActive)
+            return 1m;
+
+        if (!props.HasFlag(ValueProp.Move) || props.HasFlag(ValueProp.Unpowered) || props.HasFlag(ValueProp.Unblockable))
             return 1m;
 
         // 攻击者必须持有集谐响应 power（否则 tsRes=0，倍率=2*base^0/100=0.02，会出现无响应也增伤）。
