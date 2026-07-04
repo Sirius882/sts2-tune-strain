@@ -1,52 +1,49 @@
 @echo off
-chcp 65001 >nul
-setlocal enabledelayedexpansion
+setlocal EnableExtensions EnableDelayedExpansion
 
-:: 切换到脚本所在目录，避免从别的工作目录启动时找不到 .git
 cd /d "%~dp0"
 
-:: 检查是否在 Git 仓库中
 git rev-parse --is-inside-work-tree >nul 2>&1
 if errorlevel 1 (
-    echo 当前目录不是 Git 仓库，请把本文件放在仓库根目录下。
-    pause
-    exit /b
+    echo ERROR: this directory is not a Git work tree.
+    exit /b 1
 )
 
-:: 获取提交信息：如果拖拽文件或双击时带参数，则使用第一个参数；否则使用当前时间
+for /f "delims=" %%b in ('git branch --show-current') do set "current_branch=%%b"
+if "%current_branch%"=="" (
+    echo ERROR: cannot determine current branch.
+    exit /b 1
+)
+
 if "%~1"=="" (
-    for /f "tokens=1-3 delims=/- " %%a in ('date /t') do (
-        set today=%%a-%%b-%%c
-    )
-    for /f "tokens=1-2 delims=: " %%a in ('time /t') do (
-        set now=%%a:%%b
-    )
-    set commit_msg=%today% %now%
+    for /f "tokens=1-3 delims=/- " %%a in ('date /t') do set "today=%%a-%%b-%%c"
+    for /f "tokens=1-2 delims=: " %%a in ('time /t') do set "now=%%a:%%b"
+    set "commit_msg=%today% %now%"
 ) else (
-    set commit_msg=%~1
+    set "commit_msg=%~1"
 )
 
-echo 添加所有更改...
+echo Adding changes...
 git add .
+if errorlevel 1 exit /b 1
 
-echo 提交更改...
+echo Committing changes...
 git commit -m "%commit_msg%"
-
 if errorlevel 1 (
-    echo 提交失败（可能没有需要提交的更改），退出。
-    pause
-    exit /b
+    git diff --cached --quiet
+    if errorlevel 1 (
+        echo ERROR: commit failed with staged changes still present.
+        exit /b 1
+    )
+    echo No new commit was created. Continuing to push existing commits.
 )
 
-echo 推送到远程仓库...
-git push origin main
-
+echo Pushing to origin/%current_branch%...
+git push origin %current_branch%
 if errorlevel 1 (
-    echo 推送失败，请检查网络或凭证。
-    pause
-    exit /b
+    echo ERROR: push failed.
+    exit /b 1
 )
 
-echo ========== 推送成功！==========
-echo 提交信息：%commit_msg%
-pause
+echo Push succeeded.
+echo Commit message: %commit_msg%
