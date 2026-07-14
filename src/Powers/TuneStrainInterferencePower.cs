@@ -35,8 +35,8 @@ public sealed class TuneStrainInterferencePower : CustomPowerModel
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             Title: "集谐·干涉",
-            Description: "受到的直接攻击伤害按集谐易伤放大。",
-            SmartDescription: "受到的直接攻击伤害按集谐易伤放大。");
+            Description: "增加玩家对怪物的伤害。集谐·偏移和集谐响应的层数越高，增伤幅度越大。不能对该目标附加集谐·偏移。持续3回合。",
+            SmartDescription: "增加玩家对怪物的伤害。集谐·偏移和集谐响应的层数越高，增伤幅度越大。不能对该目标附加集谐·偏移。持续3回合。");
 
     static TuneStrainInterferencePower()
     {

@@ -24,8 +24,8 @@ public sealed class TuneStrainResponsePower : CustomPowerModel
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             Title: "集谐响应",
-            Description: "集谐处决结算时按抽牌堆/手牌/弃牌堆的[gold]集谐响应[/gold]牌总数覆盖层数；存续期间使你对带[gold]集谐·干涉[/gold]的怪物造成额外伤害。",
-            SmartDescription: "集谐处决结算时按响应牌总数覆盖层数；存续期间你对带集谐·干涉的怪物造成额外伤害。");
+            Description: "触发集谐谐度破坏时，卡组中带有[gold]集谐响应[/gold]标记的牌的总数。层数越高，从[gold]集谐·干涉[/gold]获得的增伤幅度越大。持续3回合。",
+            SmartDescription: "触发集谐谐度破坏时，卡组中带有集谐响应标记的牌的总数。层数越高，从集谐·干涉获得的增伤幅度越大。持续3回合。");
 
     static TuneStrainResponsePower()
     {

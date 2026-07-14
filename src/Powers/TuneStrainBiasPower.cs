@@ -25,8 +25,8 @@ public sealed class TuneStrainBiasPower : CustomPowerModel
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             Title: "集谐·偏移",
-            Description: "谐度破坏时清空并转化为等量的[gold]集谐·干涉[/gold]。",
-            SmartDescription: "谐度破坏时清空并转化为等量的集谐·干涉。");
+            Description: "触发谐度破坏后转化为[gold]集谐·干涉[/gold]。",
+            SmartDescription: "触发谐度破坏后转化为集谐·干涉。");
 
     static TuneStrainBiasPower()
     {

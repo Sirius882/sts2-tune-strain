@@ -1,11 +1,11 @@
 {
   "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.title": "Tune Strain · Bias",
-  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.description": "Cleared and converted into an equal amount of [gold]Tune Strain · Interference[/gold] when Resonance Break resolves.",
-  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.smartDescription": "Cleared and converted into an equal amount of Tune Strain · Interference when Resonance Break resolves.",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.description": "When Resonance Break triggers, this is converted into [gold]Tune Strain · Interference[/gold].",
+  "TUNESTRAIN-TUNE_STRAIN_BIAS_POWER.smartDescription": "When Resonance Break triggers, this is converted into Tune Strain · Interference.",
   "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.title": "Tune Strain · Interference",
-  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.description": "Direct attack damage taken is amplified by the Tune Strain vulnerability ratio.",
-  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.smartDescription": "Direct attack damage taken is amplified by the Tune Strain vulnerability ratio.",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.description": "Increases the damage players deal to this monster. The higher the Tune Strain · Bias and Tune Strain Response stacks are, the larger the damage bonus. Tune Strain · Bias cannot be applied to this target. Lasts 3 turns.",
+  "TUNESTRAIN-TUNE_STRAIN_INTERFERENCE_POWER.smartDescription": "Increases the damage players deal to this monster. The higher the Tune Strain · Bias and Tune Strain Response stacks are, the larger the damage bonus. Tune Strain · Bias cannot be applied to this target. Lasts 3 turns.",
   "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.title": "Tune Strain Response",
-  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.description": "When a Tune Strain rupture resolves, the count of [gold]Tune Strain Response[/gold] cards in your draw pile, hand, and discard pile overwrites this power's stacks; while active, you deal extra damage to enemies with [gold]Tune Strain · Interference[/gold].",
-  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.smartDescription": "When a Tune Strain rupture resolves, response card count overwrites stacks; while active, you deal extra damage to enemies with Tune Strain · Interference."
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.description": "When Tune Strain Resonance Break triggers, this is set to the total number of cards in your deck with [gold]Tune Strain Response[/gold]. Higher stacks increase the damage bonus from [gold]Tune Strain · Interference[/gold]. Lasts 3 turns.",
+  "TUNESTRAIN-TUNE_STRAIN_RESPONSE_POWER.smartDescription": "When Tune Strain Resonance Break triggers, this is set to the total number of cards in your deck with Tune Strain Response. Higher stacks increase the damage bonus from Tune Strain · Interference. Lasts 3 turns."
 }
